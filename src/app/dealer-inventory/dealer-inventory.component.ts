@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../vehicle';
+import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 
 @Component({
   selector: 'app-dealer-inventory',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    PhotoGalleryComponent
+  ],
   templateUrl: './dealer-inventory.component.html',
   styleUrl: './dealer-inventory.component.css'
 })
@@ -70,5 +74,9 @@ export class DealerInventoryComponent {
       this.inventory = this.originalInventory;     
     }
 
-    
+    handlePhotoNavigation(_photoIndex_:number, car:Vehicle) {
+      if (_photoIndex_ == car.photos.length- 1) {
+      alert("Come visit us in our showroom!")
+    }
+ }
 }

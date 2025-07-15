@@ -2,6 +2,10 @@
     border-color: thin black solid;
     border-radius: 10px;
     padding: 5px;
-    width: 300px;
+    width: 400px;
     background-color: lightgray;
+}
+
+.gallery{
+    width: 400px;
 }

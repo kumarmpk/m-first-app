@@ -5,6 +5,15 @@
 @for (car of inventory; track car.VIN){
     <div [class.featured-item] = "car.featured" >
         <h2>{{car.year}} {{car.make}}, {{car.model}}</h2>
+
+        <p class="gallery">
+            @if(car.photos.length > 0){
+                <app-photo-gallery [photos]="car.photos"
+                (on-navigate)="handlePhotoNavigation($event, car)" >
+                </app-photo-gallery>
+            }
+        </p>
+
         @if (car.featured){
             <h3>Featured car of the month</h3>
         }
