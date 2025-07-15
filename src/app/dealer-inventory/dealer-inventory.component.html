@@ -1,0 +1,19 @@
+<h1>Current Inventory</h1>
+<p><button (click)="loadFullInventory()" >Load Full Inventory</button></p>
+<p><button (click)="showHideDelete = !showHideDelete" >Show Hide Delete</button></p>
+<ul>
+@for (car of inventory; track car.VIN){
+    <div [class.featured-item] = "car.featured" >
+        <h2>{{car.year}} {{car.make}}, {{car.model}}</h2>
+        @if (car.featured){
+            <h3>Featured car of the month</h3>
+        }
+        <p> VIN : {{car.VIN}} </p>
+        <p>{{car.mileage}} Miles, ${{car.price}}</p>
+        <p><button (click)="deleteVehicle(car)" *ngIf="showHideDelete" >Delete</button></p>
+    </div>
+}
+@empty {
+ <li>No cars in the inventory.</li>
+}
+</ul>

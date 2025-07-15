@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-// import './experiments'
-import { TapCounterComponent } from './tap-counter/tap-counter.component';
+import { DealerInventoryComponent } from './dealer-inventory/dealer-inventory.component';
 
 @Component({
   selector: 'app-root',
-  imports: [TapCounterComponent],
+  imports: [DealerInventoryComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
