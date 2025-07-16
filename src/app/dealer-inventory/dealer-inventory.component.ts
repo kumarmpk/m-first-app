@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../vehicle';
 import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
 // import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
 import { VehicleFormReactiveComponent } from '../vehicle-form-reactive/vehicle-form-reactive.component';
+import {InventoryService} from '../inventory.service';
 
 @Component({
   selector: 'app-dealer-inventory',
@@ -17,63 +18,28 @@ import { VehicleFormReactiveComponent } from '../vehicle-form-reactive/vehicle-f
   styleUrl: './dealer-inventory.component.css'
 })
 
-export class DealerInventoryComponent {
+export class DealerInventoryComponent implements OnInit {
 
   originalInventory: Vehicle[];
   showHideDelete:boolean = false;
 
   vehicleToEdit: Vehicle | null = null;
+  inventorySvc:InventoryService = inject(InventoryService);
+
+  inventory:Vehicle[] = [ ];
 
   constructor(){
     this.originalInventory = this.inventory;
   }
 
-  inventory:Vehicle[] = [
-    {
-      VIN: "Y123",
-        year: 2012,
-        make: "HONDA",
-        model: "Civic",
-        mileage: 70000,
-        price: 5900.00,
-        featured: false,
-        photos: [],
-    },
-    {
-      VIN: "P1023",
-      year: 2019,
-      make: "BMW",
-      model: "328i",
-      mileage: 42000,
-      price: 12000.00,
-      featured: true,
-      photos: ["/assets/b-1.png", "/assets/b-2.png", "/assets/b-3.png", "/assets/b-4.png"],
-    },
-    {
-      VIN: "NM182",
-      year: 2018,
-      make: "KIA",
-      model: "Niro",
-      mileage: 31000,
-      price: 7900.00,
-      featured: false,
-      photos: ["/assets/k-1.png", "/assets/k-2.png", "/assets/k-3.png"],
-    },
-    {
-      VIN: "Y187",
-      year: 2014,
-      make: "HONDA",
-      model: "Accord",
-      mileage: 40000,
-      price: 8900.00,
-      featured: false,
-      photos: [],
-    },
-  ]
+  ngOnInit() : void{
+    this.inventory = this.inventorySvc.getInventory();
+  }
 
   deleteVehicle( car: Vehicle ){
     window.confirm();
-    this.inventory = this.inventory.filter(c => c.VIN != car.VIN)
+    this.inventorySvc.deleteVehicle( car );
+    this.inventory = this.inventorySvc.getInventory();
   }
 
   loadFullInventory(){
@@ -87,7 +53,8 @@ export class DealerInventoryComponent {
   }
 
   addVehicle( newVehicle : Vehicle ){
-    this.inventory.push( newVehicle );
+    this.inventorySvc.addVehicle( newVehicle );
+    this.inventory = this.inventorySvc.getInventory();
   }
 
   beginEditing(v:Vehicle) {
@@ -95,8 +62,8 @@ export class DealerInventoryComponent {
   }
 
   commitEdit(v:Vehicle) {
-    //Copy the edited data into the `vehicleToEdit` object.
-    Object.assign(this.vehicleToEdit!, v)
+    this.inventorySvc.updateVehicle( this.vehicleToEdit!.VIN, v);
+    this.inventory = this.inventorySvc.getInventory();
     this.vehicleToEdit = null;
   }
 
