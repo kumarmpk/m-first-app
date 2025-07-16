@@ -2,14 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../vehicle';
 import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component';
-import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
+// import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
+import { VehicleFormReactiveComponent } from '../vehicle-form-reactive/vehicle-form-reactive.component';
 
 @Component({
   selector: 'app-dealer-inventory',
   imports: [
     CommonModule,
     PhotoGalleryComponent,
-    VehicleFormComponent
+    // VehicleFormComponent
+    VehicleFormReactiveComponent,
   ],
   templateUrl: './dealer-inventory.component.html',
   styleUrl: './dealer-inventory.component.css'
@@ -19,6 +21,8 @@ export class DealerInventoryComponent {
 
   originalInventory: Vehicle[];
   showHideDelete:boolean = false;
+
+  vehicleToEdit: Vehicle | null = null;
 
   constructor(){
     this.originalInventory = this.inventory;
@@ -84,6 +88,16 @@ export class DealerInventoryComponent {
 
   addVehicle( newVehicle : Vehicle ){
     this.inventory.push( newVehicle );
+  }
+
+  beginEditing(v:Vehicle) {
+    this.vehicleToEdit = v;
+  }
+
+  commitEdit(v:Vehicle) {
+    //Copy the edited data into the `vehicleToEdit` object.
+    Object.assign(this.vehicleToEdit!, v)
+    this.vehicleToEdit = null;
   }
 
 }

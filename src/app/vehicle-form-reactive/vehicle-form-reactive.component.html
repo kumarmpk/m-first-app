@@ -1,0 +1,33 @@
+<form [formGroup]="vehicleForm">
+    VIN:<br /> 
+    <input type="text" formControlName="VIN" />
+        @if (vehicleForm.get('VIN')?.invalid &&
+            vehicleForm.get('VIN')?.dirty) {
+                <span class="error">Must be 3 characters.  I, O and Q not allowed.</span>
+        }
+    <br />
+    Year:<br />
+    <input type="text" formControlName="year"/>
+    <br />
+    Make:<br />
+    <input type="text" formControlName="make"/>
+    <br />
+    Model:<br />
+    <input type="text" formControlName="model"/>
+    <br />
+    Mileage:<br />
+    <input type="text" formControlName="mileage"/>
+    <br />
+    Price:<br />
+    <input type="text" formControlName="price"/>
+    <br />
+    <label>
+    <input type="checkbox" formControlName="featured"/>
+        Featured vehicle
+    </label>
+    <br/>
+    @if (vehicleForm.invalid) {
+        <p class="error">Please enter valid values.</p>
+    }
+    <button (click)="handleSubmit()" [disabled]="vehicleForm.invalid">Submit</button>
+</form>

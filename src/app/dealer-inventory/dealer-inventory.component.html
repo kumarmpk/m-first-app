@@ -1,5 +1,6 @@
 <h1>Current Inventory</h1>
-<app-vehicle-form (on-submit)="addVehicle($event)"></app-vehicle-form>
+<app-vehicle-form-reactive (on-submit)="addVehicle($event)">
+    </app-vehicle-form-reactive>
 <p><button (click)="loadFullInventory()" >Load Full Inventory</button></p>
 <p><button (click)="showHideDelete = !showHideDelete" >Show Hide Delete</button></p>
 <ul>
@@ -20,7 +21,17 @@
         }
         <p> VIN : {{car.VIN}} </p>
         <p>{{car.mileage}} Miles, ${{car.price}}</p>
-        <p><button (click)="deleteVehicle(car)" *ngIf="showHideDelete" >Delete</button></p>
+
+        @if(vehicleToEdit == car) {
+            <app-vehicle-form-reactive [vehicle]="car"
+                (on-submit)="commitEdit($event)">
+            </app-vehicle-form-reactive>
+        }
+
+        <p>
+            <button (click)="deleteVehicle(car)" *ngIf="showHideDelete" >Delete</button>
+            <button (click)="beginEditing(car)">Edit</button>
+        </p>
     </div>
 }
 @empty {
