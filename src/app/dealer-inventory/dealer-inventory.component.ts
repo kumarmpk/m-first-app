@@ -33,13 +33,16 @@ export class DealerInventoryComponent implements OnInit {
   }
 
   ngOnInit() : void{
-    this.inventory = this.inventorySvc.getInventory();
+    this.inventorySvc.getInventory().subscribe(
+      list => this.inventory = list
+    )
   }
 
   deleteVehicle( car: Vehicle ){
     window.confirm();
-    this.inventorySvc.deleteVehicle( car );
-    this.inventory = this.inventorySvc.getInventory();
+    this.inventorySvc.deleteVehicle( car ).subscribe( () => {
+      this.inventory = this.inventory.filter( v => v.VIN !== car.VIN );
+    });
   }
 
   loadFullInventory(){
@@ -53,8 +56,9 @@ export class DealerInventoryComponent implements OnInit {
   }
 
   addVehicle( newVehicle : Vehicle ){
-    this.inventorySvc.addVehicle( newVehicle );
-    this.inventory = this.inventorySvc.getInventory();
+    this.inventorySvc.addVehicle( newVehicle ).subscribe( () => {
+      this.inventory.push(newVehicle);
+    });
   }
 
   beginEditing(v:Vehicle) {
@@ -62,9 +66,13 @@ export class DealerInventoryComponent implements OnInit {
   }
 
   commitEdit(v:Vehicle) {
-    this.inventorySvc.updateVehicle( this.vehicleToEdit!.VIN, v);
-    this.inventory = this.inventorySvc.getInventory();
-    this.vehicleToEdit = null;
+    this.inventorySvc.updateVehicle( this.vehicleToEdit!.VIN, v)
+      .subscribe( () => {
+        Object.assign(this.vehicleToEdit!, v);
+        this.vehicleToEdit = null;
+      }
+
+    )
   }
 
 }
