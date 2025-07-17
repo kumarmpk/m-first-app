@@ -20,7 +20,8 @@
             <h3>Featured car of the month</h3>
         }
         <p> VIN : {{car.VIN}} </p>
-        <p>{{car.mileage}} Miles, ${{car.price}}</p>
+        <p>{{ car.mileage | number:'':'fr-CA' }} Miles, 
+            {{ car.price | currency:'CAD':'symbol':'':'fr' }}</p>
 
         @if(vehicleToEdit == car) {
             <app-vehicle-form-reactive [vehicle]="car"

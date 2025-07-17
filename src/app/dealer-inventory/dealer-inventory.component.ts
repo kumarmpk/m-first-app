@@ -5,6 +5,8 @@ import { PhotoGalleryComponent } from '../photo-gallery/photo-gallery.component'
 // import { VehicleFormComponent } from '../vehicle-form/vehicle-form.component';
 import { VehicleFormReactiveComponent } from '../vehicle-form-reactive/vehicle-form-reactive.component';
 import {InventoryService} from '../inventory.service';
+import { DecimalPipe, CurrencyPipe } from '@angular/common';
+import '@angular/common/locales/global/fr';
 
 @Component({
   selector: 'app-dealer-inventory',
@@ -13,6 +15,8 @@ import {InventoryService} from '../inventory.service';
     PhotoGalleryComponent,
     // VehicleFormComponent
     VehicleFormReactiveComponent,
+    DecimalPipe,
+    CurrencyPipe,
   ],
   templateUrl: './dealer-inventory.component.html',
   styleUrl: './dealer-inventory.component.css'
